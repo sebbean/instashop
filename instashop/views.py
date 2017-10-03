@@ -31,7 +31,7 @@ def popular_sorted(request):
 
 def liked_authors(request):
   api = instagram_api(request)
-  items = data_massage.extract_liked_data(api.getTotalLikedMedia(int(request.GET.get('pages','1'))))
+  items = data_massage.extract_liked_data(api.getTotalLikedMedia(int(request.GET.get('pages','21'))))
   author_list = dict()
 
   for item in items:
@@ -40,4 +40,4 @@ def liked_authors(request):
     else:
       author_list[items[item]['author_name']] += 1
 
-  return HttpResponse(json.dumps(items), content_type='application/json')
+  return HttpResponse(json.dumps(author_list), content_type='application/json')

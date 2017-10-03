@@ -50,10 +50,11 @@ def combined_lists(request):
 def matched_stories(request):
   api = instagram_api(request)
   items = data_massage.extract_liked_data(api.getTotalLikedMedia(int(request.GET.get('pages','5'))))
+  site = int(request.GET.get('site','1'))
   word_list = data_massage.word_count_freq(items)
   author_list = data_massage.extract_liked_authors(items)
-  word_matches = content_api.match_content_tags(word_list)
-  author_matches = content_api.match_content_tags(author_list)
+  word_matches = content_api.match_content_tags(word_list, site=site)
+  author_matches = content_api.match_content_tags(author_list, site=site)
   combined_dict = {"popular": word_matches, "liked_authors": author_matches}
   return HttpResponse(json.dumps(combined_dict), content_type='application/json')
 

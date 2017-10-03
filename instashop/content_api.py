@@ -3,11 +3,16 @@ import json
 from datetime import datetime, timedelta
 
 
-def match_content_tags(words):
+def match_content_tags(words,site=1):
 
     stopwords = get_stop_words()
     
-    sites = ["www.whowhatwear.com","www.byrdie.com","www.mydomaine.com"]
+    if site == 1:
+        site = "www.whowhatwear.com"
+    elif site == 2:
+        site = "www.byrdie.com"
+    else:
+        site = "www.mydomaine.com"
     
     fields = "&fields=id,title,slug,images,authors,updated_at,publish_start,section,is_sponsored,sponsored_text"
 
@@ -15,26 +20,23 @@ def match_content_tags(words):
     matches = []
     for t in words:
         w = t[0]
-        d = {}
         if w in stopwords:
             continue
-        for site in sites:
-            brands = site + "?tag=brands-" + w + fields
-            tags = site + "?tag=tags-" + w + fields
-            celebrities = site + "?tag=celebrities-" + w + fields
-            r1 = get_article_page(param=brands)
-            r2 = get_article_page(param=tags)
-            r3 = get_article_page(param=celebrities)
-            r1 = get_page_data(r1)
-            r2 = get_page_data(r2)
-            r3 = get_page_data(r3)
-            matches.append(r1)
-            matches.append(r2)
-            matches.append(r3)
-            flat_matches = [item for sublist in matches for item in sublist]
-            most_recent = keep_recent(flat_matches)
-            d.update({site : most_recent})
-        dic[w] = d
+        brands = site + "?tag=brands-" + w + fields
+        tags = site + "?tag=tags-" + w + fields
+        celebrities = site + "?tag=celebrities-" + w + fields
+        r1 = get_article_page(param=brands)
+        r2 = get_article_page(param=tags)
+        r3 = get_article_page(param=celebrities)
+        r1 = get_page_data(r1)
+        r2 = get_page_data(r2)
+        r3 = get_page_data(r3)
+        matches.append(r1)
+        matches.append(r2)
+        matches.append(r3)
+        flat_matches = [item for sublist in matches for item in sublist]
+        most_recent = keep_recent(flat_matches)
+        dic[w] = {site : most_recent}
     return dic
 
 
@@ -93,3 +95,4 @@ def get_collections_with_tags(tags):
         print("attr error")
 
   return filtered
+

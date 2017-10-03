@@ -33,7 +33,6 @@ def match_content_tags(words,site=1):
         matches.append(r3)
         flat_matches = [item for sublist in matches for item in sublist]
         dic[w] = flat_matches
-    print(dic)
     return dic
         
 
@@ -49,5 +48,58 @@ def get_page_data(response):
 
 
 if __name__ == "__main__":
-    tags = ['jeans','red','leather']
+    atags = [
+        [
+        "stylesightworldwide",
+        26
+        ],
+        [
+        "alwaysjudging",
+        14
+        ],
+        [
+        "songofstyle",
+        11
+        ],
+        [
+        "fhlurs",
+        9
+        ],
+        [
+        "nytimesfashion",
+        7
+        ]
+    ]
+
+    tags = [
+        [
+        "fashion",
+        30
+        ],
+        [
+        "fashionweek",
+        29
+        ],
+        [
+        "streetfashion",
+        27
+        ],
+        [
+        "blogger",
+        27
+        ],
+        [
+        "streetstyle",
+        27
+        ],
+        [
+        "ss18",
+        22
+        ],
+        [
+        "londonfashionweek",
+        22
+        ]
+    ]
+
     match_content_tags(tags)

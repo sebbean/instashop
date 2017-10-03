@@ -3,6 +3,8 @@ import json
 
 
 def match_content_tags(words,site=1):
+
+    stopwords = get_stop_words()
     
     if site == 1:
         site = "www.whowhatwear.com"
@@ -19,6 +21,8 @@ def match_content_tags(words,site=1):
     matches = []
     for t in words:
         w = t[0]
+        if w in stopwords:
+            continue
         brands = site + "?tag=brands-" + w + fields
         tags = site + "?tag=tags-" + w + fields
         celebrities = site + "?tag=celebrities-" + w + fields
@@ -46,6 +50,11 @@ def get_page_data(response):
     data = json.loads(response.text)
     return data['docs']
 
+def get_stop_words():
+    with open('stopwords.json') as json_data:
+        stopwords = json.load(json_data)
+        json_data.close()
+    return stopwords
 
 if __name__ == "__main__":
     atags = [
@@ -73,7 +82,7 @@ if __name__ == "__main__":
 
     tags = [
         [
-        "fashion",
+        "would",
         30
         ],
         [
@@ -103,3 +112,4 @@ if __name__ == "__main__":
     ]
 
     match_content_tags(tags)
+    # get_stop_words()

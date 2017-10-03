@@ -46,7 +46,7 @@ def combined_lists(request):
 
   return HttpResponse(json.dumps(combined_dict), content_type='application/json')
 
-def matches(request):
+def matched_stories(request):
   api = instagram_api(request)
   items = data_massage.extract_liked_data(api.getTotalLikedMedia(int(request.GET.get('pages','5'))))
   word_list = data_massage.word_count_freq(items)

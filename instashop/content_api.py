@@ -56,7 +56,6 @@ def get_stop_words():
     return stopwords
 
 def keep_recent(posts):
-    print("original len:{}".format(len(posts)))
     recent_post = posts
     today = datetime.today()
     delta = timedelta(days=30)
@@ -69,7 +68,6 @@ def keep_recent(posts):
                 recent_post.remove(p)
         if len(recent_post) > 5:
             recent_post = recent_post[0:5]
-    print("updated len:{}".format(len(recent_post)))
     return recent_post
 
 def get_collections_with_tags(tags):
@@ -89,10 +87,10 @@ def get_collections_with_tags(tags):
           c['match'] = t
           filtered.append(c)
       except UnicodeDecodeError:
-        print "unicode error"
+        print("unicode error")
       except TypeError:
-        print "non type error"
+        print("non type error")
       except AttributeError:
-        print "attr error"
+        print("attr error")
 
   return filtered

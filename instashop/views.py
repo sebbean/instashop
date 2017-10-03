@@ -34,9 +34,9 @@ def liked_authors(request):
   items = data_massage.extract_liked_data(api.getTotalLikedMedia(int(request.GET.get('pages','1'))))
   author_list = dict()
   for item in items:
-    if item['authoer_name'] not in author_list:
-      author_list[item['authoer_name']] = 1
+    if item['author_name'] not in author_list:
+      author_list[item['author_name']] = 1
     else:
-      author_list[item['authoer_name']] += 1
+      author_list[item['author_name']] += 1
 
   return HttpResponse(json.dumps(author_list), content_type='application/json')

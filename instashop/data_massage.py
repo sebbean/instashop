@@ -58,3 +58,14 @@ def word_count_freq(liked_list):
     sorted_list = sorted(word_count_dict.items(), key=operator.itemgetter(1), reverse=True)
 
     return sorted_list
+
+def extract_liked_authors(liked_list):
+    author_list = dict()
+
+    for item in liked_list:
+        if liked_list[item]['author_name'] not in author_list:
+            author_list[liked_list[item]['author_name']] = 1
+        else:
+            author_list[liked_list[item]['author_name']] += 1
+    sort_author_list = sorted(author_list.items(), key=operator.itemgetter(1), reverse=True)
+    return sort_author_list

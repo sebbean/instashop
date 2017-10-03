@@ -24,20 +24,23 @@ def liked(request):
 
 def popular_sorted(request):
   api = instagram_api(request)
-  liked_list = data_massage.extract_liked_data(api.getTotalLikedMedia(int(request.GET.get('pages','21'))))
-  word_list = data_massage.word_count_freq(liked_list)
+  items = data_massage.extract_liked_data(api.getTotalLikedMedia(int(request.GET.get('pages','21'))))
+  word_list = data_massage.word_count_freq(items)
 
   return HttpResponse(json.dumps(word_list), content_type='application/json')
 
 def liked_authors(request):
   api = instagram_api(request)
   items = data_massage.extract_liked_data(api.getTotalLikedMedia(int(request.GET.get('pages','21'))))
-  author_list = dict()
-
-  for item in items:
-    if items[item]['author_name'] not in author_list:
-      author_list[items[item]['author_name']] = 1
-    else:
-      author_list[items[item]['author_name']] += 1
+  author_list = data_massage.extract_liked_authors(items)
 
   return HttpResponse(json.dumps(author_list), content_type='application/json')
+
+def combined_lists(request):
+  api = instagram_api(request)
+  items = data_massage.extract_liked_data(api.getTotalLikedMedia(int(request.GET.get('pages','21'))))
+  word_list = data_massage.word_count_freq(items)
+  author_list = data_massage.extract_liked_authors(items)
+  combined_dict = {"popular": word_list, "liked_authors": author_list}
+
+  return HttpResponse(json.dumps(combined_dict), content_type='application/json')

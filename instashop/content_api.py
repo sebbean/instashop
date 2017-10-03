@@ -17,7 +17,8 @@ def match_content_tags(words,site=1):
 
     dic = {}
     matches = []
-    for w in words:
+    for t in words:
+        w = t[0]
         brands = site + "?tag=brands-" + w + fields
         tags = site + "?tag=tags-" + w + fields
         celebrities = site + "?tag=celebrities-" + w + fields

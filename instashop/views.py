@@ -48,7 +48,7 @@ def combined_lists(request):
 
 def matches(request):
   api = instagram_api(request)
-  items = data_massage.extract_liked_data(api.getTotalLikedMedia(int(request.GET.get('pages','21'))))
+  items = data_massage.extract_liked_data(api.getTotalLikedMedia(int(request.GET.get('pages','5'))))
   word_list = data_massage.word_count_freq(items)
   author_list = data_massage.extract_liked_authors(items)
   master_list = word_list + author_list

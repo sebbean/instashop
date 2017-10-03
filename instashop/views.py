@@ -24,14 +24,14 @@ def liked(request):
 
 def popular_sorted(request):
   api = instagram_api(request)
-  liked_list = data_massage.extract_liked_data(api.getTotalLikedMedia(int(request.GET.get('pages','1'))))
+  liked_list = data_massage.extract_liked_data(api.getTotalLikedMedia(int(request.GET.get('pages','21'))))
   word_list = data_massage.word_count_freq(liked_list)
 
   return HttpResponse(json.dumps(word_list), content_type='application/json')
 
 def liked_authors(request):
   api = instagram_api(request)
-  items = data_massage.extract_liked_data(api.getTotalLikedMedia(int(request.GET.get('pages','1'))))
+  items = data_massage.extract_liked_data(api.getTotalLikedMedia(int(request.GET.get('pages','21'))))
   author_list = dict()
   for item in items:
     if item['author_name'] not in author_list:

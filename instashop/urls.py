@@ -15,7 +15,10 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from instashop import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^instagram/following$', views.following),
+    url(r'^instagram/liked$', views.liked),
 ]

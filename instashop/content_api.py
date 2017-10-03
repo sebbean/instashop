@@ -37,7 +37,7 @@ def match_content_tags(words):
         dic[w] = d
     print(dic)
     return dic
-        
+
 
 def get_article_page(param=""):
     api = 'http://api.cliqueinc.com'
@@ -71,65 +71,27 @@ def keep_recent(posts):
     print("updated len:{}".format(len(recent_post)))
     return recent_post
 
-if __name__ == "__main__":
-    atags = [
-        [
-        "stylesightworldwide",
-        26
-        ],
-        [
-        "alwaysjudging",
-        14
-        ],
-        [
-        "songofstyle",
-        11
-        ],
-        [
-        "fhlurs",
-        9
-        ],
-        [
-        "nytimesfashion",
-        7
-        ]
-    ]
+def get_collections_with_tags(tags):
+  r = requests.get("https://fapi.cliqueinc.com/collections?rows=1350")
+  data = r.json()
+  # filtered = [c for c in data if tag in c['title'] or tag in c['description'] ]
+  filtered = []
+  stopwords = get_stop_words()
 
-    tags = [
-        [
-        "would",
-        30
-        ],
-        [
-        "fashionweek",
-        29
-        ],
-        [
-        "streetfashion",
-        27
-        ],
-        [
-        "blogger",
-        27
-        ],
-        [
-        "streetstyle",
-        27
-        ],
-        [
-        "ss18",
-        22
-        ],
-        [
-        "londonfashionweek",
-        22
-        ]
-    ]
 
-    t =  [[
-        "walk",
-        22
-        ]]
-
-    match_content_tags(tags)
-    # get_stop_words()
+  for c in data:
+    for t in tags:
+      if t in stopwords:
+          continue
+      try:
+        if t.lower() in c['title'].lower() or t.lower() in c['description'].lower():
+          c['match'] = t
+          filtered.append(c)
+      except UnicodeDecodeError:
+        print "unicode error"
+      except TypeError:
+        print "non type error"
+      except AttributeError:
+        print "attr error"
+        
+  return filtered

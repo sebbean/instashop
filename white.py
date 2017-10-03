@@ -1,0 +1,5 @@
+text_file = open("brands.txt", "r")
+lines = text_file.read().split("\n")
+print(len(lines))
+print(type(lines))
+print(lines[0:10])

@@ -6,7 +6,8 @@ from datetime import datetime, timedelta
 def match_content_tags(words,site=1):
 
     stopwords = get_stop_words()
-    
+    whitewords = get_white_brands()
+
     if site == 1:
         site = "www.whowhatwear.com"
     elif site == 2:
@@ -21,6 +22,8 @@ def match_content_tags(words,site=1):
     for t in words:
         w = t[0]
         if w in stopwords:
+            continue
+        if w not in whitewords:
             continue
         brands = site + "?tag=brands-" + w + fields
         tags = site + "?tag=tags-" + w + fields
@@ -55,6 +58,11 @@ def get_stop_words():
         stopwords = json.load(json_data)
         json_data.close()
     return stopwords
+
+def get_white_brands():
+    text_file = open("brands.txt", "r")
+    whitebrands = text_file.read().split("\n")
+    return whitebrands
 
 def keep_recent(posts):
     recent_post = posts

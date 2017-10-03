@@ -35,7 +35,6 @@ def match_content_tags(words):
             most_recent = keep_recent(flat_matches)
             d.update({site : most_recent})
         dic[w] = d
-    print(dic)
     return dic
 
 

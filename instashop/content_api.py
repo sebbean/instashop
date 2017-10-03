@@ -3,7 +3,7 @@ import json
 
 
 def match_content_tags(words,site=1):
-    
+
     if site == 1:
         site = "www.whowhatwear.com"
     elif site == 2:
@@ -34,7 +34,7 @@ def match_content_tags(words,site=1):
         flat_matches = [item for sublist in matches for item in sublist]
         dic[w] = flat_matches
     return dic
-        
+
 
 def get_article_page(param=""):
     api = 'http://api.cliqueinc.com'
@@ -47,59 +47,20 @@ def get_page_data(response):
     return data['docs']
 
 
-if __name__ == "__main__":
-    atags = [
-        [
-        "stylesightworldwide",
-        26
-        ],
-        [
-        "alwaysjudging",
-        14
-        ],
-        [
-        "songofstyle",
-        11
-        ],
-        [
-        "fhlurs",
-        9
-        ],
-        [
-        "nytimesfashion",
-        7
-        ]
-    ]
+def get_collections_with_tags(tags):
+  r = requests.get("https://fapi.cliqueinc.com/collections?rows=1350")
+  data = r.json()
+  # filtered = [c for c in data if tag in c['title'] or tag in c['description'] ]
+  filtered = []
+  for c in data:
+    for t in tags:
+      try:
+        if t in c['title'] or t in c['description']:
+          filtered.append(c)
+      except UnicodeDecodeError:
+        print "unicode error"
+      except TypeError:
+        print "non type error"
 
-    tags = [
-        [
-        "fashion",
-        30
-        ],
-        [
-        "fashionweek",
-        29
-        ],
-        [
-        "streetfashion",
-        27
-        ],
-        [
-        "blogger",
-        27
-        ],
-        [
-        "streetstyle",
-        27
-        ],
-        [
-        "ss18",
-        22
-        ],
-        [
-        "londonfashionweek",
-        22
-        ]
-    ]
+  return filtered
 
-    match_content_tags(tags)

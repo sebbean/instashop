@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 import json
+import requests
 
 from InstagramAPI.InstagramAPI import InstagramAPI
 from instashop import data_massage
@@ -55,4 +56,14 @@ def matches(request):
   author_matches = content_api.match_content_tags(author_list, site=1)
   combined_dict = {"popular": word_matches, "liked_authors": author_matches}
   return HttpResponse(json.dumps(combined_dict), content_type='application/json')
+
+def matched_collections(request):
+  api = instagram_api(request)
+  items = data_massage.extract_liked_data(api.getTotalLikedMedia(int(request.GET.get('pages','5'))))
+  word_list = data_massage.word_count_freq(items)
+  author_list = data_massage.extract_liked_authors(items)
+  combined_dict = {"popular": content_api.get_collections_with_tags([item[0] for item in word_list]), "liked_authors": content_api.get_collections_with_tags([item[0] for item in author_list])}
+
+  return HttpResponse(json.dumps(combined_dict), content_type='application/json')
+
 

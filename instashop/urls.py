@@ -23,5 +23,6 @@ urlpatterns = [
     url(r'^instagram/liked$', views.liked),
     url(r'^instagram/popular_words$', views.popular_sorted),
     url(r'^instagram/liked_authors$', views.liked_authors),
-    url(r'^instagram/combined_lists$', views.combined_lists)
+    url(r'^instagram/combined_lists$', views.combined_lists),
+    url(r'^instagram/matches$', views.matches)
 ]

@@ -3,9 +3,10 @@ import json
 
 from InstagramAPI.InstagramAPI import InstagramAPI
 from instashop import data_massage
+from instashop import content_api
 
 def instagram_api(request):
-  api = InstagramAPI(request.GET.get('username','apicard'), request.GET.get('password','Newpassword'))
+  api = InstagramAPI(request.GET.get('username','yogalola22'), request.GET.get('password','yoga12345'))
   api.login()
   return api
 
@@ -44,3 +45,14 @@ def combined_lists(request):
   combined_dict = {"popular": word_list, "liked_authors": author_list}
 
   return HttpResponse(json.dumps(combined_dict), content_type='application/json')
+
+def matches(request):
+  api = instagram_api(request)
+  items = data_massage.extract_liked_data(api.getTotalLikedMedia(int(request.GET.get('pages','21'))))
+  word_list = data_massage.word_count_freq(items)
+  author_list = data_massage.extract_liked_authors(items)
+  master_list = word_list + author_list
+  matches = content_api.match_content_tags(master_list, site=1)
+
+  return HttpResponse(json.dumps(matches), content_type='application/json')
+

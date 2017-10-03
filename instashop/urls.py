@@ -21,4 +21,6 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^instagram/following$', views.following),
     url(r'^instagram/liked$', views.liked),
+    url(r'^instagram/popular_words$', views.popular_sorted),
+    url(r'^instagram/liked_authors$', views.liked_authors)
 ]

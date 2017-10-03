@@ -21,3 +21,22 @@ def liked(request):
   items = data_massage.extract_liked_data(api.getTotalLikedMedia(int(request.GET.get('pages','1'))))
 
   return HttpResponse(json.dumps(items), content_type='application/json')
+
+def popular_sorted(request):
+  api = instagram_api(request)
+  liked_list = data_massage.extract_liked_data(api.getTotalLikedMedia(int(request.GET.get('pages','1'))))
+  word_list = data_massage.word_count_freq(liked_list)
+
+  return HttpResponse(json.dumps(word_list), content_type='application/json')
+
+def liked_authors(request):
+  api = instagram_api(request)
+  items = data_massage.extract_liked_data(api.getTotalLikedMedia(int(request.GET.get('pages','1'))))
+  author_list = dict()
+  for item in items:
+    if item['authoer_name'] not in author_list:
+      author_list[item['authoer_name']] = 1
+    else:
+      author_list[item['authoer_name']] += 1
+
+  return HttpResponse(json.dumps(author_list), content_type='application/json')

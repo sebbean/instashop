@@ -67,7 +67,8 @@ def keep_recent(posts):
             date = datetime.strptime(date,"%Y-%m-%d")
             if today - date > delta:
                 recent_post.remove(p)
-        recent_post = recent_post[0:5]
+        if len(recent_post) > 5:
+            recent_post = recent_post[0:5]
     print("updated len:{}".format(len(recent_post)))
     return recent_post
 
@@ -93,5 +94,5 @@ def get_collections_with_tags(tags):
         print "non type error"
       except AttributeError:
         print "attr error"
-        
+
   return filtered

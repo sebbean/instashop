@@ -36,3 +36,21 @@ def extract_hashes_tags(caption):
     results_dict.update({"hashes": hashes, "tags": tags})
 
     return results_dict
+
+
+def word_count_freq(liked_list):
+    word_list = list()
+    word_count_dict = dict()
+    for item in liked_list:
+        hashes_tags = liked_list[item]['hashes_tags']
+        for each in hashes_tags:
+            for word in hashes_tags[each]:
+                word_list.append(word)
+    print(word_list)
+    for item in word_list:
+        if item not in word_count_dict:
+            word_count_dict[item] = 1
+        else:
+            word_count_dict[item] += 1
+
+    return word_count_dict

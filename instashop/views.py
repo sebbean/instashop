@@ -52,8 +52,8 @@ def matched_stories(request):
   items = data_massage.extract_liked_data(api.getTotalLikedMedia(int(request.GET.get('pages','5'))))
   word_list = data_massage.word_count_freq(items)
   author_list = data_massage.extract_liked_authors(items)
-  word_matches = content_api.match_content_tags(word_list, site=1)
-  author_matches = content_api.match_content_tags(author_list, site=1)
+  word_matches = content_api.match_content_tags(word_list)
+  author_matches = content_api.match_content_tags(author_list)
   combined_dict = {"popular": word_matches, "liked_authors": author_matches}
   return HttpResponse(json.dumps(combined_dict), content_type='application/json')
 

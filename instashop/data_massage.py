@@ -1,4 +1,5 @@
 import re
+import operator
 
 
 def extract_liked_data(raw_data):
@@ -6,13 +7,14 @@ def extract_liked_data(raw_data):
 
     for item in raw_data:
         try:
+            author_name = item['user']['username']
             id = item['id']
             like_count = item['like_count']
             caption = item['caption']['text'].encode('utf-8')
             hashes_tags = extract_hashes_tags(caption)
             image_url = item['image_versions2']['candidates'][0]['url']
             if id not in liked_list:
-                liked_list[id] = {'like_count': like_count, 'caption': caption, 'image_url': image_url, 'hashes_tags': hashes_tags}
+                liked_list[id] = {'author_name': author_name, 'like_count': like_count, 'caption': caption, 'image_url': image_url, 'hashes_tags': hashes_tags}
         except TypeError:
             pass
         except KeyError:
@@ -53,4 +55,6 @@ def word_count_freq(liked_list):
         else:
             word_count_dict[item] += 1
 
-    return word_count_dict
+    sorted_list = sorted(word_count_dict.items(), key=operator.itemgetter(1), reverse=True)
+
+    return sorted_list

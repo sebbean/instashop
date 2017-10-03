@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 def match_content_tags(words,site=1):
 
     stopwords = get_stop_words()
-    whitewords = get_white_brands()
+    # whitewords = get_white_brands()
 
     if site == 1:
         site = "www.whowhatwear.com"
@@ -23,8 +23,8 @@ def match_content_tags(words,site=1):
         w = t[0]
         if w in stopwords:
             continue
-        if w not in whitewords:
-            continue
+        # if w.upper() not in (name.upper() for name in whitewords):
+        #     continue
         brands = site + "?tag=brands-" + w + fields
         tags = site + "?tag=tags-" + w + fields
         celebrities = site + "?tag=celebrities-" + w + fields
@@ -103,4 +103,3 @@ def get_collections_with_tags(tags):
         print("attr error")
 
   return filtered
-

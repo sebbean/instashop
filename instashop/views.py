@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 import json
 
-from InstagramAPI import InstagramAPI
+from InstagramAPI.InstagramAPI import InstagramAPI
 
 
 def following(request):

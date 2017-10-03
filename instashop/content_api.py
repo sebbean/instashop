@@ -61,14 +61,21 @@ def get_collections_with_tags(tags):
   data = r.json()
   # filtered = [c for c in data if tag in c['title'] or tag in c['description'] ]
   filtered = []
+  stopwords = get_stop_words()
+
   for c in data:
     for t in tags:
+      if t in stopwords:
+          continue
       try:
-        if t in c['title'] or t in c['description']:
+        if t.lower() in c['title'].lower() or t.lower() in c['description'].lower():
+          c['match'] = t
           filtered.append(c)
       except UnicodeDecodeError:
         print "unicode error"
       except TypeError:
         print "non type error"
+      except AttributeError:
+        print "attr error"
 
   return filtered

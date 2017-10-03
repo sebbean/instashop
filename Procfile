@@ -1,1 +1,1 @@
-web: gunicorn instashop.wsgi
+web: gunicorn instashop.wsgi -t 300
